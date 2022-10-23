@@ -1,10 +1,10 @@
-# @seabasslab/init-viewer
+# seabasslab-init-viewer
 
 Autores:
 
 - @SeaBassLab
 
-<div class=phishy>Breaking changes from previous version 0.0.5</div>
+<div style="color: red;">Breaking changes from previous version 0.0.5</div>
 
 ---
 
@@ -14,14 +14,14 @@ I decided to build the API from scratch in order to gain more control over the o
 
 ## tl;dr
 
-- Install by executing `npm install @seabasslab/init-viewer` or `yarn add @seabasslab/init-viewer`.
-- Import by adding `import { initViewer } from '@seabasslab/init-viewer'`.
+- Install by executing `npm i seabasslab-init-viewer` or `yarn add seabasslab-init-viewer`.
+- Import by adding `import { initViewer } from 'seabasslab-init-viewer'`.
 - Use by adding this function `initViewer(config)`.
 - Use `onMount` because it needs to run on client side.
 
 ## Description
 
-@seabasslab/init-viewer is a small browser-oriented library that allows you to manipulate the Sketchfab Viewer API simply and easily.
+seabasslab-init-viewer is a small browser-oriented library that allows you to manipulate the Sketchfab Viewer API simply and easily.
 
 ## Motivation
 
@@ -33,16 +33,16 @@ These and other common API viewer configuration errors that consume research tim
 
 ### Installation
 
-Add @seabasslab/init-viewer to your project by executing
+Add seabasslab-init-viewer to your project by executing
 
 ```js
- npm install @seabasslab/init-viewer
+ npm install seabasslab-init-viewer
 ```
 
 or
 
 ```js
- yarn add @seabasslab/init-viewer
+ yarn add seabasslab-init-viewer
 ```
 
 ### Usage
