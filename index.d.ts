@@ -1,23 +1,53 @@
-export interface Options {
-    success?: (api: any) => void;
-    error?: () => void;
-    autostart?: number;
-    autospin?: number;
-    preload?: number;
-    ui_infos?: number;
-    ui_stop?: number;
-    ui_controls?: number;
-    ui_fadeout?: number;
-    ui_fullscreen?: number;
-    ui_settings?: number;
-    ui_help?: number;
-    ui_inspector?: number;
-    ui_vr?: number;
-    ui_ar?: number;
-    ui_watermark?: number;
-    ui_ar_help?: number;
-    ui_ar_qrcode?: number;
-    ui_loading?: number;
+declare type OptionName =
+  | "autostart"
+  | "autospin"
+  | "preload"
+  | "ui_infos"
+  | "ui_stop"
+  | "ui_controls"
+  | "ui_fadeout"
+  | "ui_fullscreen"
+  | "ui_settings"
+  | "ui_help"
+  | "ui_inspector"
+  | "ui_vr"
+  | "ui_ar"
+  | "ui_watermark"
+  | "ui_ar_help"
+  | "ui_ar_qrcode"
+  | "ui_loading";
+declare type OptionInfo =
+  | "0"
+  | "0.1"
+  | "0.2"
+  | "0.3"
+  | "0.4"
+  | "0.5"
+  | "0.6"
+  | "0.7"
+  | "0.8"
+  | "0.9"
+  | "1";
+declare type Options = Record<OptionName, OptionInfo>;
+interface ViewerOptions {
+  options?: Partial<Options>;
+  api_version?: string;
 }
-export declare const options: Options;
-export declare const init_viewer: (iframe: HTMLIFrameElement, uid: string, custom_options?: Options) => void;
+interface RequestOptions {
+  name: string;
+  arguments: unknown[];
+}
+export interface ModelConfig {
+  model_uid: string;
+  container_id: string;
+  loader_id?: string;
+  request_settings?: RequestOptions[];
+}
+export declare const initViewer: (
+  config: ModelConfig,
+  handleResults?: ((data: unknown) => void) | undefined,
+  options?: ViewerOptions
+) => {
+  destroy(): void;
+};
+export {};
