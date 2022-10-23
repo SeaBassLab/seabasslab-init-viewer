@@ -1,5 +1,5 @@
 {
-  "name": "@seabasslab/init-viewer",
+  "name": "seabasslab-init-viewer",
   "version": "0.0.6",
   "main": "index.js",
   "files": [
