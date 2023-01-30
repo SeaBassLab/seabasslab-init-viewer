@@ -1,16 +1,8 @@
 # seabasslab-init-viewer
 
-Autores:
+Author:
 
 - @SeaBassLab
-
-<div style="color: red;">Breaking changes from previous version 0.0.5</div>
-
----
-
-I decided to build the API from scratch in order to gain more control over the options and interactions with the Viewer API and even give you the ability to add a custom loader or take the default one.
-
----
 
 ## tl;dr
 
@@ -88,9 +80,38 @@ Here's an example of basic usage:
       console.log(data); // data is the value for the request_settings response
     });
   }); // needs to run on the client side
+
+  updateSettings("1-iframe-container", {
+    name: "startAR",
+    arguments: [],
+  });
   ```
 
-## Alternatives
+# InitViewer
+
+## Config
+
+- `model_uid`: It refers to the identification of the 3D model previously uploaded in Sketchfab
+
+- `container_id`: Refers to the id of the HTML tag container
+
+- `request_settings`: It is an array of objects containing 2 properties. The function name and arguments(if it takes no arguments, pass an empty array)
+
+## Callback
+
+- Receives a response to functions in request_settings and/or updateSettings
+
+## Function - updateSettings
+
+Receives 2 arguments. The first is a string with the id of the `HTML` container tag and the second is an object equal to the objects in request_settings. This function allows you to manipulate the 3D model without having to start it again.
+
+## TypeScript
+
+- This library comes with TypeScript "typings". If you happen to find any bugs in those, create an issue.
+
+## Options
+
+- Option parameters for the 3D viewer
 
 You will probably need to interact with the different options provided by the Sketchfab viewer API itself. Many of the options have account limitations.
 Please visit the [official site](https://sketchfab.com/developers/viewer/initialization) to know all the options

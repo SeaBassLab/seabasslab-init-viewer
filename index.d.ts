@@ -43,6 +43,12 @@ export interface ModelConfig {
   loader_id?: string;
   request_settings?: RequestOptions[];
 }
+export declare const updateSettings: (
+  container_id: string,
+  request: RequestOptions
+) => {
+  destroy(): void;
+};
 export declare const initViewer: (
   config: ModelConfig,
   handleResults?: ((data: unknown) => void) | undefined,

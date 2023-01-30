@@ -1,89 +1,89 @@
 export const custom_loader = () => {
   return `<div style="display: flex; align-items: center; justify-content: center; height: 100%; width: 100%;" id="loader">
-      <div class="lds-grid" >
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-      </div>
-  
-      <style>
-          .lds-grid {
-              display: inline-block;
-              position: relative;
-              width: 80px;
-              height: 80px;
-          }
-          .lds-grid div {
-              position: absolute;
-              width: 16px;
-              height: 16px;
-              border-radius: 50%;
-              background: #fff;
-              animation: lds-grid 1.2s linear infinite;
-          }
-          .lds-grid div:nth-child(1) {
-              top: 8px;
-              left: 8px;
-              animation-delay: 0s;
-          }
-          .lds-grid div:nth-child(2) {
-              top: 8px;
-              left: 32px;
-              animation-delay: -0.4s;
-          }
-          .lds-grid div:nth-child(3) {
-              top: 8px;
-              left: 56px;
-              animation-delay: -0.8s;
-          }
-          .lds-grid div:nth-child(4) {
-              top: 32px;
-              left: 8px;
-              animation-delay: -0.4s;
-          }
-          .lds-grid div:nth-child(5) {
-              top: 32px;
-              left: 32px;
-              animation-delay: -0.8s;
-          }
-          .lds-grid div:nth-child(6) {
-              top: 32px;
-              left: 56px;
-              animation-delay: -1.2s;
-          }
-          .lds-grid div:nth-child(7) {
-              top: 56px;
-              left: 8px;
-              animation-delay: -0.8s;
-          }
-          .lds-grid div:nth-child(8) {
-              top: 56px;
-              left: 32px;
-              animation-delay: -1.2s;
-          }
-          .lds-grid div:nth-child(9) {
-              top: 56px;
-              left: 56px;
-              animation-delay: -1.6s;
-          }
-          @keyframes lds-grid {
-              0%,
-              100% {
-                  opacity: 1;
-              }
-              50% {
-                  opacity: 0.5;
-              }
-          }
-      </style>
-  </div>
-  `;
+	<div class="lds-grid" >
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+		<div></div>
+	</div>
+
+	<style>
+		.lds-grid {
+			display: inline-block;
+			position: relative;
+			width: 80px;
+			height: 80px;
+		}
+		.lds-grid div {
+			position: absolute;
+			width: 16px;
+			height: 16px;
+			border-radius: 50%;
+			background: #fff;
+			animation: lds-grid 1.2s linear infinite;
+		}
+		.lds-grid div:nth-child(1) {
+			top: 8px;
+			left: 8px;
+			animation-delay: 0s;
+		}
+		.lds-grid div:nth-child(2) {
+			top: 8px;
+			left: 32px;
+			animation-delay: -0.4s;
+		}
+		.lds-grid div:nth-child(3) {
+			top: 8px;
+			left: 56px;
+			animation-delay: -0.8s;
+		}
+		.lds-grid div:nth-child(4) {
+			top: 32px;
+			left: 8px;
+			animation-delay: -0.4s;
+		}
+		.lds-grid div:nth-child(5) {
+			top: 32px;
+			left: 32px;
+			animation-delay: -0.8s;
+		}
+		.lds-grid div:nth-child(6) {
+			top: 32px;
+			left: 56px;
+			animation-delay: -1.2s;
+		}
+		.lds-grid div:nth-child(7) {
+			top: 56px;
+			left: 8px;
+			animation-delay: -0.8s;
+		}
+		.lds-grid div:nth-child(8) {
+			top: 56px;
+			left: 32px;
+			animation-delay: -1.2s;
+		}
+		.lds-grid div:nth-child(9) {
+			top: 56px;
+			left: 56px;
+			animation-delay: -1.6s;
+		}
+		@keyframes lds-grid {
+			0%,
+			100% {
+				opacity: 1;
+			}
+			50% {
+				opacity: 0.5;
+			}
+		}
+	</style>
+</div>
+`;
 };
 const base_url = "https://sketchfab.com/models/";
 const embed_path = "/embed?";
@@ -124,6 +124,20 @@ export function build_url(model_uid, props) {
   });
   return newUrl.href;
 }
+export const updateSettings = (container_id, request) => {
+  const VIEWER = window.document.getElementById("viewer_" + container_id);
+  VIEWER &&
+    VIEWER.contentWindow?.postMessage(
+      {
+        type: "api.request",
+        instanceId: "1",
+        requestId: request.name,
+        member: request.name,
+        arguments: request.arguments,
+      },
+      "https://sketchfab.com"
+    );
+};
 export const initViewer = (config, handleResults, options) => {
   if (typeof config !== "object") throw new Error("config must be an object");
   const VIEWER = window.document.createElement("iframe");
@@ -174,7 +188,7 @@ export const initViewer = (config, handleResults, options) => {
           {
             type: "api.request",
             instanceId: "1",
-            requestId: 1,
+            requestId: request.name,
             member: request.name,
             arguments: request.arguments,
           },
@@ -184,11 +198,16 @@ export const initViewer = (config, handleResults, options) => {
   };
   const handleMessageEvent = (event) => {
     const { data } = event;
-    data.results[1]?.progress === 1 && showModel();
-    data.results[0] === "viewerready" && sendMessage();
+    if (data.results) {
+      data.results[1]?.progress === 1 && showModel();
+      data.results[0] === "viewerready" && sendMessage();
+    }
     data.type === "api.request.result" &&
       handleResults &&
-      handleResults(data.results[0] ?? data.results[1]);
+      handleResults({
+        name: data.requestId,
+        result: data.results[0] ?? data.results[1],
+      });
   };
   window.addEventListener("message", (event) => handleMessageEvent(event));
   CONTAINER?.appendChild(VIEWER);
